@@ -1,4 +1,4 @@
-import { randomString } from './utils.ts'
+import { $, randomString } from './utils.ts'
 import './style.css'
 import './reset.css'
 
@@ -15,26 +15,27 @@ interface GameState {
   boxs: {
     id: string,
     color: string,
+    is_paired: boolean;
   }[]
 }
 
 
-const $ = (selector: string) => document.querySelector(selector)
-const COLORS = [
-  "#492540",
-  "#c03546",
-  "#2f89fc",
-  "#40514e",
-  "#30e3ca",
-  "#ea7dc7"
-]
 
 class Game {
   board: Writeable<HTMLElement>;
   state: GameState;
+  colors: string[]
 
   constructor() {
     this.board = $('#board')! as HTMLElement
+    this.colors = [
+      "#492540",
+      "#c03546",
+      "#2f89fc",
+      "#40514e",
+      "#30e3ca",
+      "#ea7dc7"
+    ]
     this.state = {
       GameStatus: 'NOT_STARTED',
       boxs: [],
@@ -44,14 +45,21 @@ class Game {
 
   initialize(boardSize: number) {
     for (let i = 0; i < boardSize * boardSize; i++) {
-      this.board.innerHTML += `<span id="box" data-value="${randomString(7)}"></span>`
+      const color = this.generateColorPair()
+      const valueAttrs = randomString(7)
+      this.board.innerHTML += `<span id="${valueAttrs}" style="background-color: ${color};"></span>`
+      this.state.boxs.push({
+        id: valueAttrs,
+        color: color,
+        is_paired: false
+      })
     }
     this.applyGridStyle(boardSize)
-    this.colorPair(boardSize)
   }
 
-  colorPair(boardSize: number) {
-
+  generateColorPair() {
+    const selected = this.colors[(Math.random() * this.colors.length | 0)] // '| 0', convert float to int
+    return selected
   }
 
   applyGridStyle(boardSize: number) {
@@ -65,4 +73,5 @@ class Game {
   }
 }
 
+// Assign to window so it can be accessed easily
 window.game = new Game()

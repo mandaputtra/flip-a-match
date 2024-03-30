@@ -9,3 +9,5 @@ export function randomString(length: number): string {
   }
   return result;
 }
+
+export const $ = (selector: string) => document.querySelector(selector)
