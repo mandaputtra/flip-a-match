@@ -12,7 +12,7 @@ declare global {
 type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 type BoxStatus = 'PAIRED' | 'SELECTED' | 'INVALID' | 'IDLE';
 interface GameState {
-  GameStatus: 'RUNNING' | 'WIN' | 'LOSE' | 'NOT_STARTED'
+  GameStatus: 'RUNNING' | 'WIN' | 'NOT_STARTED'
   is_first_time: boolean;
   boxs: {
     id: string;
@@ -69,6 +69,8 @@ class Game {
     const boxes = $$("#board > span") as NodeListOf<HTMLSpanElement>
     boxes.forEach(e => e.addEventListener('click', (e) => {
       this.clickedBox(e)
+      this.updateScore()
+      this.isTheGameFinish()
     }))
   }
 
@@ -113,7 +115,27 @@ class Game {
       this.resetSelection()
       return
     }
+  }
 
+  updateScore() {
+    const pairedBox = this.findBoxByStatus("PAIRED")
+    if (pairedBox.length < 2) {
+      $('#board-score').innerHTML = `Found : 0`
+    } else {
+      const score = pairedBox.length / 2
+      $('#board-score').innerHTML = `Found : ${score}`
+    }
+  }
+
+  isTheGameFinish() {
+    const idleBox = this.state.boxs.filter(b => b.status === 'IDLE' || b.status == 'SELECTED')
+    if (idleBox.length === 1) {
+      this.state.GameStatus = "WIN"
+      this.play_button.hidden = false
+      $$("#board > span").forEach(e => e.remove())
+      // @ts-expect-error cannot assign string on 
+      this.board.style = ''
+    }
   }
 
   resetSelection() {
