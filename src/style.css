@@ -10,8 +10,10 @@
 }
 
 body {
-  max-width: 800px;
+  max-width: 667px;
   height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 header {
@@ -22,4 +24,31 @@ h1 {
   font-size: 2rem;
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+}
 
+#box {
+  border: 1px solid black;
+}
+
+#board {
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+footer > ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
