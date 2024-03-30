@@ -12,7 +12,7 @@ declare global {
 type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 type BoxStatus = 'PAIRED' | 'SELECTED' | 'INVALID' | 'IDLE';
 interface GameState {
-  GameStatus: 'RUNNING' | 'WIN' | 'NOT_STARTED'
+  GameStatus: 'RUNNING' | 'NOT_STARTED'
   is_first_time: boolean;
   boxs: {
     id: string;
@@ -80,20 +80,20 @@ class Game {
 
     const boxState = this.findBoxByID(id)
     if (!boxState) return
-    // If the box doenst have match, mark them as invalid
-    if (!this.findRemainingColor(boxState.color, boxState.id)) {
-      console.log('here')
-      el.classList.remove('selected-box')
-      el.classList.add('invalid-box')
-      boxState.status = 'INVALID'
-      this.resetSelection()
-      return
-    }
 
     // If the box state is idle assign as selected box
     if (boxState.status === 'IDLE') {
       el.classList.add('selected-box')
       boxState.status = 'SELECTED'
+    }
+
+    // If the box doenst have match, mark them as invalid
+    if (!this.findRemainingColor(boxState.color, boxState.id)) {
+      el.classList.remove('selected-box')
+      el.classList.add('invalid-box')
+      boxState.status = 'INVALID'
+      this.resetSelection()
+      return
     }
 
     const selectedBoxs = this.findBoxByStatus('SELECTED')
@@ -129,13 +129,16 @@ class Game {
 
   isTheGameFinish() {
     const idleBox = this.state.boxs.filter(b => b.status === 'IDLE' || b.status == 'SELECTED')
-    if (idleBox.length === 1) {
-      this.state.GameStatus = "WIN"
+    if (idleBox.length <= 1) {
+      this.state.GameStatus = "NOT_STARTED"
       this.play_button.hidden = false
+      this.state.boxs = []
       $$("#board > span").forEach(e => e.remove())
       // @ts-expect-error cannot assign string on 
       this.board.style = ''
+      return true
     }
+    return false
   }
 
   resetSelection() {
