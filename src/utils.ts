@@ -1,6 +1,6 @@
 export function randomString(length: number): string {
   let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   const charactersLength = characters.length;
   let counter = 0;
   while (counter < length) {
@@ -11,3 +11,4 @@ export function randomString(length: number): string {
 }
 
 export const $ = (selector: string) => document.querySelector(selector)
+export const $$ = (selector: string) => document.querySelectorAll(selector)

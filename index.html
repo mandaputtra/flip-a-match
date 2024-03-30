@@ -12,10 +12,13 @@
         <h1>Flip A Match</h1>
       </header>
       <section id="app">
-        <button onclick="game.initialize(4)">Play</button>
-        <div id="board">
-          
+        <button id="play-button" onclick="game.initialize(4)">Play</button>
+        <div id="board-score">
+          <p>
+            Match Found : 0
+          </p>
         </div>
+        <div id="board"></div>
       </section>
       <footer>
         <ul>
