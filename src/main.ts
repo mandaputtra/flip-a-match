@@ -142,6 +142,7 @@ class Game {
 
   isTheGameFinish() {
     const idletile = this.state.tiles.filter(b => b.status === 'IDLE' || b.status == 'SELECTED')
+    // If there is only one or less idle or selected tile finish the game
     if (idletile.length <= 1) {
       this.state.GameStatus = "NOT_STARTED"
       this.play_button.hidden = false
