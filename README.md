@@ -35,11 +35,12 @@ Drag and Drop the `dist` folder to [Netlify drop](https://app.netlify.com/drop).
 
 ### Pull Request
 
-To contribute code to this repository, please fork repository. After that make a branch and pull request with your changes. Pull request title follow 
+To contribute code to this repository, please [fork this repository](https://github.com/mandaputtra/flip-a-match/fork). After that make a branch and pull request with your changes. 
+Pull request title follow standart rules that can be read here
 
 ## Roadmaps
 
-- [ ] Better Animations (smooth level)
+- [ ] Better Animations (smooth flip, flip all card on enter)
 - [ ] Adding levels or difficulties (adding more tiles, adding more selection)
 - [ ] Multiplayer using P2P (GunJS)
 - [ ] Explore TWA (Trusted Web App) and release it on mobile platform
