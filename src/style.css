@@ -68,8 +68,12 @@ h1 {
   transform: rotateY(180deg);
 }
 
-.tile.invalid {
-  background-color: grey;
+.tile.invalid::before {
+  font-weight: 600;
+  content: "Invalid";
+  color: white;
+  margin: 1rem;
+  background-color: black;
 }
 
 .tile-inner {

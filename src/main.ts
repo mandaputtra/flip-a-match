@@ -13,7 +13,6 @@ type Writeable<T> = { -readonly [P in keyof T]: T[P] };
 type TileStatus = 'PAIRED' | 'SELECTED' | 'INVALID' | 'IDLE';
 interface GameState {
   GameStatus: 'RUNNING' | 'NOT_STARTED'
-  is_first_time: boolean;
   tiles: {
     id: string;
     color: string;
@@ -43,7 +42,6 @@ class Game {
     this.state = {
       GameStatus: 'NOT_STARTED',
       tiles: [],
-      is_first_time: true,
     }
   }
 
@@ -103,7 +101,7 @@ class Game {
 
     // If the tile doenst have match, mark them as invalid
     if (!this.findRemainingColor(tileState.color, tileState.id)) {
-      el.classList.add('flip')
+      el.classList.remove('flip')
       el.classList.add('invalid')
       tileState.status = 'INVALID'
       this.resetSelection()
@@ -150,6 +148,7 @@ class Game {
       $$(".tile").forEach(e => e.remove())
       // @ts-expect-error cannot assign string on 
       this.board.style = ''
+      $('#board-score').innerHTML = ''
       return true
     }
     return false
