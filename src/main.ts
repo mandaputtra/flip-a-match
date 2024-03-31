@@ -10,14 +10,14 @@ declare global {
 
 // Overiding read only types for HTMLElement such as style, etc
 type Writeable<T> = { -readonly [P in keyof T]: T[P] };
-type BoxStatus = 'PAIRED' | 'SELECTED' | 'INVALID' | 'IDLE';
+type TileStatus = 'PAIRED' | 'SELECTED' | 'INVALID' | 'IDLE';
 interface GameState {
   GameStatus: 'RUNNING' | 'NOT_STARTED'
   is_first_time: boolean;
-  boxs: {
+  tiles: {
     id: string;
     color: string;
-    status: BoxStatus
+    status: TileStatus
   }[]
 }
 
@@ -42,7 +42,7 @@ class Game {
     ]
     this.state = {
       GameStatus: 'NOT_STARTED',
-      boxs: [],
+      tiles: [],
       is_first_time: true,
     }
   }
@@ -53,8 +53,15 @@ class Game {
     for (let i = 0; i < boardSize * boardSize; i++) {
       const color = this.generateColorPair()
       const valueAttrs = randomString(7)
-      this.board.innerHTML += `<span id="${valueAttrs}" style="background-color: ${color};"></span>`
-      this.state.boxs.push({
+      this.board.innerHTML += `
+        <div id="${valueAttrs}" class="tile" ontouchstart="this.classList.toggle('hover');">
+          <div class="tile-inner">
+            <div class="tile-front" style=""></div>
+            <div class="tile-back" style="background-color: ${color};">Back</div>
+          </div>
+        </div>
+      `
+      this.state.tiles.push({
         id: valueAttrs,
         color: color,
         status: 'IDLE'
@@ -65,75 +72,81 @@ class Game {
     this.state.GameStatus = 'RUNNING'
     this.play_button.hidden = true
 
-    // Add listener to span box
-    const boxes = $$("#board > span") as NodeListOf<HTMLSpanElement>
-    boxes.forEach(e => e.addEventListener('click', (e) => {
-      this.clickedBox(e)
+    // Add listener to tile
+    const tilees = $$("#board > .tile") as NodeListOf<HTMLDivElement>
+    tilees.forEach(e => e.addEventListener('click', (e) => {
+      this.clickedtile(e)
       this.updateScore()
       this.isTheGameFinish()
     }))
   }
 
-  clickedBox(e: MouseEvent) {
-    const el = e.target as HTMLSpanElement
+  clickedtile(e: MouseEvent) {
+    const el = e.target as HTMLDivElement
     const id = el.id
 
-    const boxState = this.findBoxByID(id)
-    if (!boxState) return
+    const tileState = this.findTileByID(id)
+    if (!tileState) return
 
-    // If the box state is idle assign as selected box
-    if (boxState.status === 'IDLE') {
-      el.classList.add('selected-box')
-      boxState.status = 'SELECTED'
+    if (tileState.status === 'SELECTED') {
+      el.classList.remove('selected-tile')
+      tileState.status = 'IDLE'
+      return
     }
 
-    // If the box doenst have match, mark them as invalid
-    if (!this.findRemainingColor(boxState.color, boxState.id)) {
-      el.classList.remove('selected-box')
-      el.classList.add('invalid-box')
-      boxState.status = 'INVALID'
+    // If the tile state is idle assign as selected tile
+    if (tileState.status === 'IDLE') {
+      el.classList.add('selected-tile')
+      tileState.status = 'SELECTED'
+    }
+
+    // If the tile doenst have match, mark them as invalid
+    if (!this.findRemainingColor(tileState.color, tileState.id)) {
+      el.classList.remove('selected-tile')
+      el.classList.add('invalid-tile')
+      tileState.status = 'INVALID'
       this.resetSelection()
       return
     }
 
-    const selectedBoxs = this.findBoxByStatus('SELECTED')
-    // If there is two selected box 
-    if (!(selectedBoxs.length === 2)) return
+    const selectedTiles = this.findTileByStatus('SELECTED')
+    // If there is two selected tile 
+    if (!(selectedTiles.length === 2)) return
 
     // If the color match mark them as match.
-    if (selectedBoxs[0].color === selectedBoxs[1].color) {
-      selectedBoxs.forEach(b => {
+    if (selectedTiles[0].color === selectedTiles[1].color) {
+      selectedTiles.forEach(b => {
         b.status = 'PAIRED'
-        $(`#${b.id}`).classList.remove('selected-box')
-        $(`#${b.id}`).classList.add('match-box')
+        $(`#${b.id}`).classList.remove('selected-tile')
+        $(`#${b.id}`).classList.add('match-tile')
       })
       return
     }
 
     // If not reset selection
-    if (selectedBoxs[0].color !== selectedBoxs[1].color) {
+    if (selectedTiles[0].color !== selectedTiles[1].color) {
       this.resetSelection()
       return
     }
   }
 
   updateScore() {
-    const pairedBox = this.findBoxByStatus("PAIRED")
-    if (pairedBox.length < 2) {
+    const pairedtile = this.findTileByStatus("PAIRED")
+    if (pairedtile.length < 2) {
       $('#board-score').innerHTML = `Found : 0`
     } else {
-      const score = pairedBox.length / 2
+      const score = pairedtile.length / 2
       $('#board-score').innerHTML = `Found : ${score}`
     }
   }
 
   isTheGameFinish() {
-    const idleBox = this.state.boxs.filter(b => b.status === 'IDLE' || b.status == 'SELECTED')
-    if (idleBox.length <= 1) {
+    const idletile = this.state.tiles.filter(b => b.status === 'IDLE' || b.status == 'SELECTED')
+    if (idletile.length <= 1) {
       this.state.GameStatus = "NOT_STARTED"
       this.play_button.hidden = false
-      this.state.boxs = []
-      $$("#board > span").forEach(e => e.remove())
+      this.state.tiles = []
+      $$("#board > .tile").forEach(e => e.remove())
       // @ts-expect-error cannot assign string on 
       this.board.style = ''
       return true
@@ -142,7 +155,7 @@ class Game {
   }
 
   resetSelection() {
-    this.state.boxs = this.state.boxs.map(b => {
+    this.state.tiles = this.state.tiles.map(b => {
       if (b.status === 'SELECTED') {
         return {
           ...b,
@@ -152,19 +165,19 @@ class Game {
         return b
       }
     })
-    $$("#board > span").forEach(e => e.classList.remove('selected-box'))
+    $$("#board > .tile").forEach(e => e.classList.remove('selected-tile'))
   }
 
-  findBoxByStatus(status: BoxStatus) {
-    return this.state.boxs.filter(b => b.status === status)
+  findTileByStatus(status: TileStatus) {
+    return this.state.tiles.filter(b => b.status === status)
   }
 
   findRemainingColor(color: string, id: string) {
-    return this.state.boxs.some(b => b.color === color && b.status !== 'PAIRED' && b.id !== id)
+    return this.state.tiles.some(b => b.color === color && b.status !== 'PAIRED' && b.id !== id)
   }
 
-  findBoxByID(id: string) {
-    return this.state.boxs.filter(b => b.id === id)[0]
+  findTileByID(id: string) {
+    return this.state.tiles.filter(b => b.id === id)[0]
   }
 
   generateColorPair() {

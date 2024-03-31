@@ -42,39 +42,57 @@ h1 {
   padding: 0 1rem;
 }
 
-#board > span {
+.tile {
   border: 1px solid black;
+  background-color: transparent;
+  perspective: 1000px; 
+}
+
+.tile:hover .tile-inner {
+  transform: rotateY(180deg);
+}
+
+.tile-inner {
   position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
 }
 
-.selected-box::before {
-    content: "clicked"; 
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: .7;
+.tile-front, .tile-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
 }
 
-.match-box::before {
-    content: "matched"; 
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: .7;
+.tile-back {
+  color: white;
+  transform: rotateY(180deg);
 }
 
-.invalid-box::before {
-    content: "invalid"; 
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: .7;
+.tile::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.selected-tile::before {
+  content: "clicked"; 
+}
+
+.match-tile::before {
+  content: "matched"; 
+}
+
+.invalid-tile::before {
+  content: "invalid"; 
 }
 
 footer {
