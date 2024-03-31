@@ -54,10 +54,10 @@ class Game {
       const color = this.generateColorPair()
       const valueAttrs = randomString(7)
       this.board.innerHTML += `
-        <div id="${valueAttrs}" class="tile" ontouchstart="this.classList.toggle('hover');">
+        <div id="${valueAttrs}" class="tile">
           <div class="tile-inner">
-            <div class="tile-front" style=""></div>
-            <div class="tile-back" style="background-color: ${color};">Back</div>
+            <div id="${valueAttrs}" class="tile-front" style=""></div>
+            <div class="tile-back" style="background-color: ${color};"></div>
           </div>
         </div>
       `
@@ -73,37 +73,38 @@ class Game {
     this.play_button.hidden = true
 
     // Add listener to tile
-    const tilees = $$("#board > .tile") as NodeListOf<HTMLDivElement>
-    tilees.forEach(e => e.addEventListener('click', (e) => {
-      this.clickedtile(e)
+    const tiles = $$(".tile") as NodeListOf<HTMLDivElement>
+
+    tiles.forEach(e => e.addEventListener('click', (e) => {
+      this.clickedtile(e.currentTarget)
       this.updateScore()
       this.isTheGameFinish()
     }))
   }
 
-  clickedtile(e: MouseEvent) {
-    const el = e.target as HTMLDivElement
+  clickedtile(e: EventTarget) {
+    const el = e as HTMLDivElement
     const id = el.id
 
     const tileState = this.findTileByID(id)
     if (!tileState) return
 
     if (tileState.status === 'SELECTED') {
-      el.classList.remove('selected-tile')
+      el.classList.remove('flip')
       tileState.status = 'IDLE'
       return
     }
 
     // If the tile state is idle assign as selected tile
     if (tileState.status === 'IDLE') {
-      el.classList.add('selected-tile')
+      el.classList.add('flip')
       tileState.status = 'SELECTED'
     }
 
     // If the tile doenst have match, mark them as invalid
     if (!this.findRemainingColor(tileState.color, tileState.id)) {
-      el.classList.remove('selected-tile')
-      el.classList.add('invalid-tile')
+      el.classList.add('flip')
+      el.classList.add('invalid')
       tileState.status = 'INVALID'
       this.resetSelection()
       return
@@ -117,8 +118,7 @@ class Game {
     if (selectedTiles[0].color === selectedTiles[1].color) {
       selectedTiles.forEach(b => {
         b.status = 'PAIRED'
-        $(`#${b.id}`).classList.remove('selected-tile')
-        $(`#${b.id}`).classList.add('match-tile')
+        $(`#${b.id}`).classList.add('flip')
       })
       return
     }
@@ -146,7 +146,7 @@ class Game {
       this.state.GameStatus = "NOT_STARTED"
       this.play_button.hidden = false
       this.state.tiles = []
-      $$("#board > .tile").forEach(e => e.remove())
+      $$(".tile").forEach(e => e.remove())
       // @ts-expect-error cannot assign string on 
       this.board.style = ''
       return true
@@ -155,17 +155,14 @@ class Game {
   }
 
   resetSelection() {
-    this.state.tiles = this.state.tiles.map(b => {
-      if (b.status === 'SELECTED') {
-        return {
-          ...b,
-          status: 'IDLE'
+    setTimeout(() => {
+      this.state.tiles.forEach(b => {
+        if (b.status === 'SELECTED') {
+          $(`#${b.id}`).classList.remove('flip')
+          b.status = 'IDLE'
         }
-      } else {
-        return b
-      }
-    })
-    $$("#board > .tile").forEach(e => e.classList.remove('selected-tile'))
+      })
+    }, 500)
   }
 
   findTileByStatus(status: TileStatus) {

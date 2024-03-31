@@ -48,8 +48,12 @@ h1 {
   perspective: 1000px; 
 }
 
-.tile:hover .tile-inner {
+.tile.flip .tile-inner {
   transform: rotateY(180deg);
+}
+
+.tile.invalid {
+  background-color: grey;
 }
 
 .tile-inner {
@@ -57,7 +61,7 @@ h1 {
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.8s;
+  transition: transform 0.3s;
   transform-style: preserve-3d;
 }
 
@@ -72,27 +76,6 @@ h1 {
 .tile-back {
   color: white;
   transform: rotateY(180deg);
-}
-
-.tile::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.selected-tile::before {
-  content: "clicked"; 
-}
-
-.match-tile::before {
-  content: "matched"; 
-}
-
-.invalid-tile::before {
-  content: "invalid"; 
 }
 
 footer {
