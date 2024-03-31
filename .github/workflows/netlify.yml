@@ -8,9 +8,16 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-
-      # ( Build to ./dist or other directory... )
-
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Install dependencies
+        run: pnpm install 
+      - name: Build file
+        run: pnpm run build
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
         with:
