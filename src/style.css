@@ -28,7 +28,6 @@ body {
   margin-bottom: 1rem;
 }
 
-
 #game {
   display: flex;
   flex-direction: column;
@@ -96,6 +95,14 @@ h1 {
 .tile-back {
   color: white;
   transform: rotateY(180deg);
+}
+
+#play-button {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: 1.5rem;
 }
 
 footer {
