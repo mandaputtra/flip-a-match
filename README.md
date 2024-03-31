@@ -36,7 +36,15 @@ Drag and Drop the `dist` folder to [Netlify drop](https://app.netlify.com/drop).
 ### Pull Request
 
 To contribute code to this repository, please [fork this repository](https://github.com/mandaputtra/flip-a-match/fork). After that make a branch and pull request with your changes. 
-Pull request title follow standart rules that can be read here
+Pull request title follow standard rules that can be [read here](https://namingconvention.org/git/pull-request-naming.html).
+
+Example : 
+
+```txt
+#28 - Fix bug on finish game
+```
+
+#28 is issue number, and the rest is your title. If you dont have any issue number just write what is your pull request tried to change
 
 ## Roadmaps
 
