@@ -25,13 +25,13 @@ pnpm dev
 
 ### Deployment
 
-If you want to deploy this
+If you want to deploy this by your self, run this command on the terminal
 
 ```bash
 pnpm build
 ```
 
-Drag and Drop the `dist` folder to [Netlify drop](https://app.netlify.com/drop). Either way you could host it in every static side hosting possible.
+The command will output new folder called `dist`. Drag and Drop the `dist` folder to [Netlify drop](https://app.netlify.com/drop). Either way you could host it in every static side hosting possible.
 
 ### Pull Request
 
