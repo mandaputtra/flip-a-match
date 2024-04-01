@@ -1,17 +1,21 @@
 # Flip A Match
+
 A simple game to find match of two colors.
 
 ## Contributing
+
 This project uses [Vite](https://vitejs.dev/) with [Typescript](https://www.typescriptlang.org/). Follow these step to contribute to this repository. 
 
 ### Requirements
+
 In order to run this project on your machine you need to install this :
     
-    - [Node.js](https://nodejs.org/en)
-    - [Git](https://git-scm.com/)
-    - [pnpm](https://pnpm.io/)
+- [Node.js](https://nodejs.org/en)
+- [Git](https://git-scm.com/)
+- [pnpm](https://pnpm.io/)
 
 ### Development
+
 After cloning the repository, go inside the folder and install dependencies using terminal
 
 ```bash
