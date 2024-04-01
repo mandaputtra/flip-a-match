@@ -4,7 +4,7 @@ Simple game to find matching colors. Want to help develop it? Here's how!
 
 ## Contributing
 
-This project uses Vite with Typescript. Let's get you set up to contribute:
+This project uses [Vite](https://vitejs.dev/) with [Typescript](https://www.typescriptlang.org/). Let's get you set up to contribute:
 
 **Requirements:**
 
