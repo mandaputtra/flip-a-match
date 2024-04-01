@@ -6,6 +6,7 @@ This project uses [Vite](https://vitejs.dev/) with [Typescript](https://www.type
 
 ### Requirements
 In order to run this project on your machine you need to install this :
+    
     - [Node.js](https://nodejs.org/en)
     - [Git](https://git-scm.com/)
     - [pnpm](https://pnpm.io/)
