@@ -8,9 +8,9 @@ This project uses [Vite](https://vitejs.dev/) with [Typescript](https://www.type
 
 **Requirements:**
 
-* **Node.js (https://nodejs.org/en):** This is the foundation for running the project.
-* **Git (https://git-scm.com/downloads):** This is a version control system for tracking changes in your code.
-* **pnpm (https://pnpm.io/):** This is a package manager for installing project dependencies.
+* **[Node.js](https://nodejs.org/en):** This is the foundation for running the project.
+* **[Git](https://git-scm.com/downloads):** This is a version control system for tracking changes in your code.
+* **[pnpm](https://pnpm.io/):** This is a package manager for installing project dependencies.
 
 **Development Process:**
 
@@ -23,7 +23,7 @@ This project uses [Vite](https://vitejs.dev/) with [Typescript](https://www.type
 Ready to share your creation with the world? Here's how to deploy:
 
 1. **Build for Deployment:** Run `pnpm build` in your terminal. This creates an optimized `dist` folder containing the production-ready files.
-2. **Host on Netlify:** Drag and drop the `dist` folder to Netlify (https://www.netlify.com/) for a quick and easy deployment option. Alternatively, you can use any static site hosting platform of your choice.
+2. **Host on Netlify:** Drag and drop the `dist` folder to [Netlify Drop](https://app.netlify.com/drop) for a quick and easy deployment option (You need to create account). Alternatively, you can use any static site hosting platform of your choice.
 
 **Contributing Your Code:**
 
@@ -31,7 +31,7 @@ Excited to add your features or fix bugs? Here's how to contribute code:
 
 1. **Fork the Repository:** Create your own copy of the project on GitHub using the "Fork" button. This allows you to make changes without affecting the original codebase.
 2. **Make a Branch and Pull Request:** Create a new branch for your specific changes and then submit a pull request to propose your modifications to the main project.
-3. **Pull Request Title:** Follow standard naming conventions (https://namingconvention.org/git/pull-request-naming.html) for clear and concise pull request titles.
+3. **Pull Request Title:** Follow [standard naming conventions](https://namingconvention.org/git/pull-request-naming.html) for clear and concise pull request titles.
 
 **Example Pull Request Title:**
 
@@ -42,7 +42,6 @@ Example :
 
 ```txt
 #28 - Fix bug in end-game logic
-
 ```
 
 (Replace #28 with the actual issue number if applicable. Otherwise, describe your changes in the title).
