@@ -1,7 +1,7 @@
 {
   "name": "flip-a-match",
-  "private": true,
-  "version": "0.0.0",
+  "lisence": "MIT",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
